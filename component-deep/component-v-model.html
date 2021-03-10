@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>component v-model</title>
+	<script src="https://unpkg.com/vue@next"></script>
+   </head>
+   <body>
+		<div id="app">
+			<tel-input v-model:tel-number="telNumber" v-model:area-number="areaNumber"></tel-input>
+			<p>
+				{{areaNumber}}-{{telNumber}}
+			</p>
+		</div>
+   </body>
+   <script type="text/javascript">
+	const data_and_methods = {
+		data() {
+			return {
+				telNumber: '',
+				areaNumber:  ''
+			}
+		},
+		methods: {
+			
+		}
+	}
+	const app = Vue.createApp(data_and_methods)
+	app.component('tel-input',{
+		props: {
+			areaNumber:String,
+			telNumber:String
+		},
+		emits: ['update:areaNumber','update:telNumber'],
+		template: `
+			<input placeholder="区号" type="number" class="area-number" :value="areaNumber" @input="$emit('update:areaNumber',$event.target.value)" />
+			-
+			<input placeholder="座机号码" type="number" class="tel-number" :value="telNumber" @input="$emit('update:telNumber',$event.target.value)" />
+		`
+	})
+	
+	app.mount("#app")
+   </script>
+   <style type="text/css">
+		.area-number {width:60px;}
+	</style>
+</html>

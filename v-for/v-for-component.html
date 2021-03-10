@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>v-for-template</title>
+	<script src="https://unpkg.com/vue@next"></script>
+   </head>
+   <body>
+		<div id="app">
+			<form v-on:submit.prevent="addNewTodo">
+				<label for="new-todo">新增待办：</label>
+				<input id="new-todo" placeholder="例如：喂猫" v-model="newToDoText" />
+				<button>添加</button>
+			</form>
+			<ul>
+				<todo-item
+					v-for="(item,index) in todos"
+					:key="item.id"
+					:title="item.title"
+					:index="index"
+					@remove="remove($event)"
+				></todo-item>
+			</ul>
+		</div>
+   </body>
+   <script type="text/javascript">
+	const data = {
+		data() {
+			return {
+				todos: [
+					{id:1,title:"洗碗"},{id:2,title:"扔垃圾"},{id:3,title:"修剪草坪"}
+				],
+				newToDoText: '',
+				newToDoId: 4
+			}
+		},
+		methods: {
+			addNewTodo() {
+				if(this.newToDoText == ''){
+					alert('空空空！');
+				}else {
+					this.todos.push({
+						id: this.newToDoId++,
+						title: this.newToDoText
+					})
+					this.newToDoText = ''
+				}
+			},
+			remove(index) {
+				this.todos.splice(index,1)
+			}
+		}
+	}
+	const app = Vue.createApp(data)
+	app.component('todo-item',{
+		template: `
+			<li>
+				{{ title }}
+				<button @click="removeItem(index)">删除</button>
+			</li>
+		`,
+		props: ['title','index'],
+		emits: ['remove'],
+		methods: {
+			removeItem(item_index){
+				this.$emit('remove',item_index)
+			}
+		}
+	})
+	
+	app.mount("#app")
+   </script>
+</html>

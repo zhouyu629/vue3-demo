@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>component v-model modifiers</title>
+	<script src="https://unpkg.com/vue@next"></script>
+   </head>
+   <body>
+		<div id="app">
+			<my-component v-model.capitalize="myText"></my-component>
+			<p>{{ myText }}</p>
+		</div>
+   </body>
+   <script type="text/javascript">
+	const data_and_methods = {
+		data() {
+			return {
+				myText: ''
+			}
+		},
+		methods: {
+			
+		}
+	}
+	const app = Vue.createApp(data_and_methods)
+	app.component('my-component',{
+		props: {
+			modelValue: String,
+			modelModifiers: {
+				default: () => ({})
+			}
+		},
+		emits: ['update:modelValue'],
+		template: `
+			<input type="text"
+				:value="modelValue"
+				@input="emitValue" />
+		`,
+		methods: {
+			emitValue(e){
+				let value = e.target.value
+				if(this.modelModifiers.capitalize){
+					value = value.charAt(0).toUpperCase() + value.slice(1)
+				}
+				this.$emit('update:modelValue',value)
+			}
+		},
+		created() {
+			console.log(this.modelModifiers)
+		}
+	})
+	
+	app.mount("#app")
+   </script>
+   <style type="text/css">
+		.area-number {width:60px;}
+	</style>
+</html>

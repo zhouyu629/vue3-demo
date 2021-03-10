@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>v-for-template</title>
+	<script src="https://unpkg.com/vue@next"></script>
+   </head>
+   <body>
+		<div id="app">
+			<ul>
+			  <template v-for="item in items" :key="item.msg">
+				<li>{{ item.msg }}</li>
+				 <li class="divider" role="presentation"></li>
+			  </template>
+			</ul>
+		</div>
+   </body>
+   <script type="text/javascript">
+	const Counter = {
+		data() {
+			return {
+				items: [
+					{msg:"测试1"},{msg:"测试2"},{msg:"测试3"}
+				]
+			}
+		}
+	}
+	Vue.createApp(Counter).mount("#app")
+   </script>
+</html>
