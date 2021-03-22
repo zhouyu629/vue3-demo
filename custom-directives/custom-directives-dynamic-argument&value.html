@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>custom-directives-dynamic-argument&value</title>
+	<script src="https://unpkg.com/vue@next"></script>
+   </head>
+   <body>
+        <div id="app">
+            <div class="pin" v-pin:[direction]="pinPadding">把我粘在页面{{direction}}方向的{{pinPadding}}px位置</div>
+        </div>
+        <script type="text/javascript">
+            const data = {
+                data() {
+                    return {
+                        direction: 'left',
+                        pinPadding: 200
+                    }
+                }
+            }
+            const app = Vue.createApp(data)
+            app.directive('pin', {
+                mounted(el,binding) {
+                    el.style.position = "fixed"
+                    const d = binding.arg || 'top'
+                    el.style[d] = binding.value + 'px'
+                }
+            })
+            app.mount("#app")
+        </script>
+        <style type="text/css">
+            .pin {background-color: cornflowerblue; color: #fff;padding: 5px;}
+        </style>
+   </body>
+</html>

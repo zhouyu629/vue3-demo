@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>teleport</title>
+	<script src="https://unpkg.com/vue@next"></script>
+   </head>
+   <body>
+        <div id="app">
+            <h3>测试一个模态框实例（使用Teleport）</h3>
+            <modal-button></modal-button>
+        </div>
+        <script type="text/javascript">
+            const data = {
+            }
+            const app = Vue.createApp(data)
+            app.component('modal-button',{
+                data(){
+                    return {
+                        modalOpen: false
+                    }
+                },
+                template: `
+                   <button @click="modalOpen = true">打开模态框</button>
+                   <teleport to="body">
+                    <div v-if="modalOpen" class="modal">
+                        <div>
+                            我是一个teleport模态框！（我的父节点是body）
+                            <button @click="modalOpen = false">关闭模态框</button>
+                        </div>
+                    </div>
+                   </teleport> 
+                `
+            })
+            app.mount("#app")
+        </script>
+        <style type="text/css">
+            .modal {position: absolute;top:0px;left:0px;right:0px;bottom:0px;background-color:rgb(0,0,0,.5);display:flex;flex-direction: column; align-items: center;justify-content: center;}
+            .modal div {display: flex;flex-direction: column;align-items: center;justify-self: center;background-color: #FFF;width: 300px;height: 300px;padding: 5px;}
+        </style>
+   </body>
+</html>

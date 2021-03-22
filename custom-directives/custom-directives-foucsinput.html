@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>custom-directives-focusinput</title>
+	<script src="https://unpkg.com/vue@next"></script>
+   </head>
+   <body>
+        <div id="app">
+            <input type="text" v-model="txt" v-focus />
+            <p>{{ txt }}</p>
+        </div>
+        <script type="text/javascript">
+            const data = {
+                data() {
+                    return {
+                    }
+                }
+            }
+            const app = Vue.createApp(data)
+            app.directive('focus', {
+                mounted(el) {
+                    el.focus()
+                }
+            })
+            app.mount("#app")
+        </script>
+   </body>
+</html>

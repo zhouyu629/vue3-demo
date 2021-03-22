@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>custom-directives-on-component</title>
+	<script src="https://unpkg.com/vue@next"></script>
+   </head>
+   <body>
+        <div id="app">
+            <my-component v-demo="test"></my-component>
+        </div>
+        <script type="text/javascript">
+            const data = {
+                data() {
+                    return {test: 100}
+                }
+            }
+            const app = Vue.createApp(data)
+            app.directive('demo', (el,binding)=>{
+                el.style.top = binding.value + 'px'
+            })
+            app.component('my-component',{
+                template: `
+                    <div class="pin">
+                        <span>这是自定义组件</span>
+                    </div>
+                `
+            })
+            app.mount("#app")
+        </script>
+        <style type="text/css">
+            .pin {background-color: cornflowerblue; color: #fff;padding: 5px;position: fixed;}
+        </style>
+   </body>
+</html>
