@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Organizing Transitions into Components</title>
+	<script src="https://unpkg.com/vue@next"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.2.4/gsap.min.js"></script>
+   </head>
+   <body>
+        <div id="app">
+            <input type="number" v-model.number="firstNumber" step="20"> + 
+            <input type="number" v-model.number="secondNumber" step="20"> = 
+            {{ result }}
+            <p>
+                <animated-integer :value="firstNumber"></animated-integer> + 
+                <animated-integer :value="secondNumber"></animated-integer> = 
+                <animated-integer :value="result"></animated-integer>
+            </p>
+        </div>
+        <script type="text/javascript">
+            const data = {
+                data() {
+                    return {
+                        firstNumber: 20,
+                        secondNumber: 40
+                    }
+                },
+                computed: {
+                    result() {
+                        return this.firstNumber + this.secondNumber
+                    }
+                },
+                components: {
+                    'animated-integer': {
+                        template: '<span> {{ fullValue }}',
+                        props: {
+                            value: {type:Number,required:true}
+                        },
+                        data() {
+                            return {
+                                tweeningValue: 0
+                            }
+                        },
+                        methods: {
+                            tween(newValue,oldValue){
+                                gsap.to(this.$data,{
+                                    duration:0.5,
+                                    tweeningValue: newValue,
+                                    ease: 'sine'
+                                })
+                            }
+                        },
+                        computed: {
+                            fullValue() {
+                                return Math.floor(this.tweeningValue)
+                            }
+                        },
+                        watch: {
+                            value(newValue,oldValue){
+                                this.tween(newValue,oldValue)
+                            }
+                        },
+                        mounted() {
+                            this.tween(this.value,0)
+                        }
+                    }
+                }
+            }
+            Vue.createApp(data).mount("#app")
+        </script>
+   </body>
+</html>

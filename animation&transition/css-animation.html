@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>CSS Animation</title>
+	<script src="https://unpkg.com/vue@next"></script>
+   </head>
+   <body translate="no">
+        <div id="app">
+            <button @click="show = !show">切换显示</button>
+            <transition name="bounce">
+                <p v-if="show">你好，世界！！这是一段文字。尽量长一点，希望能看到这个动画的效果更加突出一点。CSS动画和CSS过渡使用方式相同，区别是`v-enter-from`不会在元素插入后立即移除，而会有一个`animationend`事件。为了简捷删除了CSS前缀规则。</p>
+            </transition>
+        </div>
+        <script type="text/javascript">
+            const data = {
+                data() {
+                    return {
+                        show: true
+                    }
+                }
+            }
+            Vue.createApp(data).mount("#app")
+        </script>
+        <style type="text/css">
+            .bounce-enter-active {animation: bounce-in 0.5s;}
+            .bounce-leave-active {animation: bounce-in 0.5s reverse;}
+            @keyframes bounce-in{
+                0% {transform: scale(0);}
+                50% {transform: scale(1.25);}
+                100% {transform: scale(1);}
+            }
+        </style>
+   </body>
+</html>

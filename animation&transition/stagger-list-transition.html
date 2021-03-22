@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>staggering list transition</title>
+	<script src="https://unpkg.com/vue@next"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.3.4/gsap.min.js"></script>
+</head>
+   <body translate="no">
+        <div id="app">
+            <input type="text" v-model="query" placeholder="请输入关键词">
+            <transition-group name="stagger-fade" tag="ul" :css="false"
+                @before-enter="beforeEnter"
+                @enter="enter"
+                @leave="leave"
+                tag="ul"
+            >
+                <li v-for="(item,index) in computedList" :key="item.msg" :data-index="index">
+                    {{ item.msg }}
+                </li>
+            </transition-group>
+        </div>
+        <script type="text/javascript">
+            const data = {
+                data() {
+                    return {
+                        query: '',
+                        list: [
+                            {msg:'Bruce Lee'},
+                            {msg:'Jackie Chan'},
+                            {msg:'Chunk Norris'},
+                            {msg:'Jet Li'},
+                            {msg: 'Kung Fury'},
+                            {msg: '周瑜'},
+                            {msg: '周杰伦'}
+                        ]
+                    }
+                },
+                computed: {
+                    computedList() {
+                        let that = this
+                        let itemList = this.list.filter(item=>{
+                            return item.msg.toLowerCase().indexOf(that.query.toLowerCase())!==-1
+                        })
+                        console.log(itemList)
+                        return itemList
+                    }
+                },
+                methods: {
+                    beforeEnter(el){
+                        el.style.opacity = 0
+                        el.style.height = 0
+                    },
+                    enter(el,done) {
+                        gsap.to(el,{
+                            opacity: 1,
+                            height: '1.6em',
+                            delay: el.dataset.index*0.15,
+                            onComplete: done
+                        })
+                    },
+                    leave(el,done){
+                        gsap.to(el,{
+                            opacity: 0,
+                            height: 0,
+                            delay: el.dataset.index*0.15,
+                            onComplete: done
+                        })
+                    }
+                }
+            }
+            Vue.createApp(data).mount("#app")
+        </script>
+   </body>
+</html>

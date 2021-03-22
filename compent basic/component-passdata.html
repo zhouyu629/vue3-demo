@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>resuing component</title>
+	<script src="https://unpkg.com/vue@next"></script>
+   </head>
+   <body>
+		<div id="app">
+			<blog
+				v-for="(item,index) in blogs"
+				:key="index"
+				:title="item.title"
+				:date="item.date"
+				:index="index"
+				@del="delblog($event)"
+			>
+			</blog>
+		</div>
+   </body>
+   <script type="text/javascript">
+	const data_and_methods = {
+		data() {
+			return {
+				blogs: [
+					{"title":"这是博客标题1",date:"2021年1月1日"},
+					{"title":"这是博客标题2",date:"2021年1月2日"},
+					{"title":"这是博客标题3",date:"2021年1月3日"},
+					{"title":"这是博客标题4",date:"2021年1月4日"},
+					{"title":"这是博客标题5",date:"2021年1月5日"}
+				]
+			}
+		},
+		methods: {
+			delblog(item_index) {
+				if(confirm("确实要删除这条博客吗？")){
+					this.blogs.splice(item_index,1)
+				}
+			}
+		}
+	}
+	const app = Vue.createApp(data_and_methods)
+	app.component('blog',{
+		props: ['title','date','index'],
+		template: `
+			<div class="title">{{ title }}</div>
+			<div class="date">发表于：{{ date }}</div>
+			<button @click="$emit('del',index)">删除</button>
+			<hr />
+		`
+	})
+	
+	app.mount("#app")
+   </script>
+   <style type="text/css">
+		.title {font-size:25px;font-weight:bold;}
+		.date {font-size:18px;color:#cccccc;padding-left:10px;}
+   </style>
+</html>

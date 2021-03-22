@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>component dynamic</title>
+	<link href="https://cdn.bootcss.com/font-awesome/5.13.0/css/all.css" rel="stylesheet">
+	<script src="https://unpkg.com/vue@next"></script>
+   </head>
+   <body>
+		<div id="app">
+		</div>
+   </body>
+   <script type="text/javascript">
+	const data = {
+		data() {
+			return {
+				currentTab: 'Home',
+				tabs: ['Home','Posts','Archive']
+			}
+		}
+	}
+	const app = Vue.createApp(data)
+	app.component('tab-home',{
+		template: `
+			<div class="cust-container">
+				Home的内容
+			</div>
+		`
+	})
+	app.component('tab-posts',{
+		template: `
+			<div class="cust-container">
+				Posts的内容
+			</div>
+		`
+	})
+	app.component('tab-archive',{
+		template: `
+			<div class="cust-container">
+				Archive的内容
+			</div>
+		`
+	})
+	
+	app.mount("#app")
+   </script>
+   <style type="text/css">
+	.cust-container {border:1px solid #cccccc;}
+   </style>
+</html>

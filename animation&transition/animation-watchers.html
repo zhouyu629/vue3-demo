@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>animation watchers</title>
+	<script src="https://unpkg.com/vue@next"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.2.4/gsap.min.js"></script>
+   </head>
+   <body>
+        <div id="app">
+            <input v-model.number="number" type="number" step="20">
+            <p>{{animatedNumber}}</p>
+        </div>
+        <script type="text/javascript">
+            const data = {
+                data() {
+                    return {
+                        number: 0,
+                        tweenedNumber: 0
+                    }
+                },
+                computed: {
+                    animatedNumber() {
+                        return this.tweenedNumber.toFixed(0)
+                    }
+                },
+                watch: {
+                    number(newValue){
+                        gsap.to(this.$data,{duration:0.5,tweenedNumber:newValue})
+                    }
+                }
+            }
+            Vue.createApp(data).mount("#app")
+        </script>
+   </body>
+</html>

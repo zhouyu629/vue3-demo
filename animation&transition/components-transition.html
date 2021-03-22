@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>javascript transition</title>
+	<script src="https://unpkg.com/vue@next"></script>
+   </head>
+   <body translate="no">
+        <div id="app">
+           <input type="radio" v-model="view" value="c-a" id="a" >A组件
+           <input type="radio" v-model="view" value="c-b" id="b">B组件
+           <transition name="component-fade" mode="out-in">
+               <component :is="view"></component>
+           </transition>
+        </div>
+        <script type="text/javascript">
+            const data = {
+                data() {
+                    return {
+                        view: 'c-a'
+                    }
+                },
+                components: {
+                    'c-a': {
+                        template: '<div>这是A组件</div>'
+                    },
+                    'c-b': {
+                        template: '<div>这是B组件</div>'
+                    }
+                }
+            }
+            Vue.createApp(data).mount("#app")
+        </script>
+        <style type="text/css">
+            .component-fade-enter-active,.component-fade-leave-active {transition: opacity 0.3s ease;}
+            .component-fade-enter-from,.component-fade-leave-to {opacity: 0;}
+        </style>
+   </body>
+</html>

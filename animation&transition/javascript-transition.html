@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>javascript transition</title>
+	<script src="https://unpkg.com/vue@next"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.3.4/gsap.min.js"></script>
+   </head>
+   <body translate="no">
+        <div id="app">
+            <button @click="show = !show">切换显示</button>
+            <transition
+                @before-enter="beforeEnter"
+                @enter="enter"
+                @leave="leave"
+                :css="false"
+            >
+                <div v-if="show" class="box"></div>
+                <div class="box2" v-else></div>
+            </transition>
+        </div>
+        <script type="text/javascript">
+            const data = {
+                data() {
+                    return {
+                        show: false
+                    }
+                },
+                methods: {
+                    beforeEnter(el){
+                        gsap.set(el,{
+                            scaleX: 0.8,
+                            scaleY: 1.2
+                        })
+                    },
+                    enter(el,done){
+                        gsap.to(el,{
+                            duration: 1,
+                            scaleX: 1.5,
+                            scaleY: 0.7,
+                            opacity: 1,
+                            x: 150,
+                            ease: 'elasitc.inOut(2.5,1)',
+                            onComplete: done
+                        })
+                    },
+                    leave(el, done) {
+                        gsap.to(el, {
+                            duration: 0.7,
+                            scaleX: 1,
+                            scaleY: 1,
+                            x: 300,
+                            ease: 'elastic.inOut(2.5, 1)',
+                        })
+                        gsap.to(el, {
+                            duration: 0.2,
+                            delay: 0.5,
+                            opacity: 0,
+                            onComplete: done
+                        })
+                    }
+                }
+            }
+            Vue.createApp(data).mount("#app")
+        </script>
+        <style type="text/css">
+            .box {width: 30px;height: 30px;background: teal;margin-top: 20px;color: #fff;}
+            .box2 {width: 30px;height: 30px;background: rgb(84, 3, 190);margin-top: 20px;color: #fff;}
+        </style>
+   </body>
+</html>

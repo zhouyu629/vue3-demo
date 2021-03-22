@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>dynamic transition</title>
+	<script src="https://unpkg.com/vue@next"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js"></script>
+   </head>
+   <body>
+        <div id="app">
+            渐入：
+            <input type="range" v-model="fadeInDuration" min="0" :max="maxFadeDuration">
+            <br />
+            渐隐：
+            <input type="range" v-model="fadeOutDuration" min="0" :max="maxFadeDuration">
+            <br />
+            <transition
+            :css="false"
+            @before-enter="beforeEnter"
+            @enter="enter"
+            @leave="leave"
+            >
+                <p v-if="show">Hellow World</p>
+            </transition>
+            <button v-if="stop" @click="stop=false;show=false">开始动画</button>
+        </div>
+        <script type="text/javascript">
+            const data = {
+                data() {
+                    return {
+                        show: true,
+                        FadeInDuration: 1000,
+                        FadeOutDuration: 1000,
+                        maxFadeDuration: 1500,
+                        stop: true
+                    }
+                },
+                mounted() {
+                    this.show = false
+                },
+                methods: {
+                    beforeEnter(el){
+                        el.style.opacity = 0
+                    },
+                    enter(el,done){
+                        let that = this
+                        Velocity(el,
+                            {opacity: 1},
+                            {
+                                duration: this.fadeInDuration,
+                                complete: function(){
+                                    done()
+                                    if(!that.stop){
+                                        that.show = false
+                                    }
+                                }
+                            }
+                        )
+                    },
+                    leave(el,done){
+                        let that = this
+                        Velocity(el,
+                            {opacity: 0},
+                            {
+                                duration: this.fadeOutDuration,
+                                complete: function(){
+                                    done()
+                                    that.show = true
+                                }
+                            }
+                        )
+                    }
+                }
+            }
+            Vue.createApp(data).mount("#app")
+        </script>
+   </body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>javascript transition</title>
+	<script src="https://unpkg.com/vue@next"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.15/lodash.min.js"></script>
+   </head>
+   <body translate="no">
+        <div id="app">
+          <button @click="shuffle">洗牌</button>
+          <transition-group name="flip-list" tag="ul">
+              <li v-for="item in items" :key="item">{{ item }} </li>
+          </transition-group>
+        </div>
+        <script type="text/javascript">
+            const data = {
+                data() {
+                    return {
+                        items: [1,2,3,4,5,6,7,8,9]
+                    }
+                },
+                methods: {
+                    shuffle() {
+                        this.items = _.shuffle(this.items)
+                    }
+                }
+            }
+            Vue.createApp(data).mount("#app")
+        </script>
+        <style type="text/css">
+            .flip-list-move {transition:transform 0.8s ease;}
+        </style>
+   </body>
+</html>

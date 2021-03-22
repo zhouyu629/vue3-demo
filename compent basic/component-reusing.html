@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>resuing component</title>
+	<script src="https://unpkg.com/vue@next"></script>
+   </head>
+   <body>
+		<div id="app">
+			<button-counter></button-counter><br />
+			<button-counter></button-counter><br />
+			<button-counter></button-counter><br />
+			<button-counter></button-counter><br />
+			<button-counter></button-counter><br />
+			<button-counter></button-counter>
+		</div>
+   </body>
+   <script type="text/javascript">
+	const data = {
+		data() {
+			return {
+			}
+		},
+		methods: {
+		}
+	}
+	const app = Vue.createApp(data)
+	app.component('button-counter',{
+		data() {
+			return {
+				count: 0
+			}
+		},
+		template: `
+			<button @click="count++">你点击了我{{ count }} 次</button>
+		`
+	})
+	
+	app.mount("#app")
+   </script>
+</html>
